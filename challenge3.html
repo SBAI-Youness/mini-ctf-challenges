@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 3: ROT13 Cipher</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+        .challenge-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+        .cipher-container {
+            margin: 25px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+        .cipher-text {
+            font-family: 'Courier New', monospace;
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            line-height: 1.5;
+        }
+        /* Removed tools section as per request */
+        .hint {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .hint h3 {
+            margin-top: 0;
+            color: #0d47a1;
+        }
+        .hint-content {
+            display: none;
+            margin-top: 10px;
+        }
+        .hint-toggle {
+            background: none;
+            border: none;
+            color: #1565c0;
+            cursor: pointer;
+            padding: 0;
+            font-size: 14px;
+            text-decoration: underline;
+        }
+        .hint-toggle:focus {
+            outline: none;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.2s;
+        }
+        .back-link:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+        .flag-input {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        .flag-input p {
+            margin-top: 0;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            padding: 8px 12px;
+            width: 300px;
+            max-width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        button[type="submit"] {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 10px;
+            transition: background-color 0.2s;
+        }
+        button[type="submit"]:hover {
+            background-color: #388e3c;
+        }
+        #result {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+        .success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+        .error {
+            background-color: #ffebee;
+            color: #c62828;
+            border: 1px solid #ffcdd2;
+        }
+    </style>
+</head>
+<body>
+    <div class="challenge-container">
+        <h1>� Challenge 3: ROT13 Cipher</h1>
+        
+        <p>Welcome to the cryptography challenge! Your task is to decode a message that has been encrypted using the ROT13 cipher.</p>
+        
+        <div class="cipher-container">
+            <h3>Encrypted Message:</h3>
+            <div class="cipher-text">
+                Gur synt vf: VRRR{ebg13_znfgeryl_haybpxrq}
+            </div>
+        </div>
+        
+        <div class="hint">
+            <h3>Need a hint? <button class="hint-toggle" onclick="toggleHint()">Show Hint</button></h3>
+            <div class="hint-content" id="hintContent">
+                <p>ROT13 is a simple letter substitution cipher that replaces a letter with the 13th letter after it in the alphabet.</p>
+                <p>For example: A → N, B → O, C → P, ..., M → Z, N → A, O → B, ..., Z → M</p>
+                <p>You can use <a href="https://gchq.github.io/CyberChef/" target="_blank">CyberChef with ROT13</a> to decode the message.</p>
+                <p>Or in Python: <code>import codecs; codecs.encode('your_text', 'rot13')</code></p>
+            </div>
+        </div>
+        
+        <!-- Removed decode tool as per request -->
+        <div class="flag-input">
+            <p>Decoded the message? Enter the flag below:</p>
+            <form id="flagForm">
+                <input type="text" id="flagInput" placeholder="Enter the flag (format: IEEE{...})" required>
+                <button type="submit">Submit</button>
+            </form>
+            <div id="result"></div>
+        </div>
+        
+        <a href="index.html" class="back-link">← Back to Challenges</a>
+    </div>
+
+    <script>
+        // Toggle hint visibility
+        function toggleHint() {
+            const hintContent = document.getElementById('hintContent');
+            const hintButton = document.querySelector('.hint-toggle');
+            
+            if (hintContent.style.display === 'block') {
+                hintContent.style.display = 'none';
+                hintButton.textContent = 'Show Hint';
+            } else {
+                hintContent.style.display = 'block';
+                hintButton.textContent = 'Hide Hint';
+            }
+        }
+        
+        // Removed ROT13 decoder functions as per request
+        // Flag validation
+        document.getElementById('flagForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const userInput = document.getElementById('flagInput').value.trim();
+            const resultDiv = document.getElementById('result');
+            
+            try {
+                // Using hardcoded flag to avoid CORS issues
+                const correctFlag = 'IEEE{rot13_masterly_unlocked}';
+                
+                // Debug logging
+                console.log('User input:', JSON.stringify(userInput));
+                console.log('Correct flag:', JSON.stringify(correctFlag));
+                console.log('Input length:', userInput.length);
+                console.log('Flag length:', correctFlag.length);
+                
+                // Case-insensitive comparison to be more forgiving
+                if (userInput.toLowerCase() === correctFlag.toLowerCase()) {
+                    resultDiv.textContent = '✅ Correct! Well done on solving the ROT13 challenge!';
+                    resultDiv.className = 'success';
+                } else {
+                    resultDiv.textContent = '❌ Incorrect flag. Try decoding the message again!';
+                    resultDiv.className = 'error';
+                }
+            } catch (error) {
+                resultDiv.textContent = '❌ Error verifying flag. Please try again.';
+                resultDiv.className = 'error';
+                console.error('Error:', error);
+            }
+            
+            resultDiv.style.display = 'block';
+        });
+        
+        // Easter egg in the source code
+        // Here's a fake flag to throw people off: IEEE{not_the_real_flag}
+    </script>
+</body>
+</html>

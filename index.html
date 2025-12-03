@@ -1,50 +1,76 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>CTF — Simple Login</title>
-  <style>
-    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#0f1117;color:#eee;display:flex;justify-content:center;align-items:center;height:100vh}
-    .box{background:#181b23;border:1px solid #2a2d36;padding:32px;border-radius:12px;width:320px;text-align:center}
-    input{width:100%;padding:10px;border-radius:6px;border:1px solid #333;background:#111;color:#eee;margin-top:8px}
-    button{width:100%;padding:10px;margin-top:12px;border:none;border-radius:6px;background:#4ea3ff;color:#000;font-weight:bold;cursor:pointer}
-    .hint{margin-top:12px;font-size:13px;color:#aaa}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini CTF Challenges</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #f0f8ff;
+        }
+        .challenge {
+            border: 2px solid #3498db;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            background-color: white;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        h2 {
+            color: #2980b9;
+            margin-top: 0;
+        }
+        a {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+        a:hover {
+            background-color: #2980b9;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #7f8c8d;
+        }
+    </style>
 </head>
 <body>
-  <div class="box">
-    <h2>CTF Login</h2>
-    <p style="font-size:14px;color:#ccc">Find the credentials hidden in the source code.</p>
-
-    <input id="user" type="text" placeholder="username">
-    <input id="pass" type="password" placeholder="password">
-
-    <button id="loginBtn">Login</button>
-    <div id="res" style="margin-top:10px;font-weight:bold"></div>
-
-    <div class="hint">Hint: view the page source.</div>
-  </div>
-
-  <script>
-    // --- Plain text credentials for the CTF ---
-    const USERNAME = "admin";
-    const PASSWORD = "s3cr3t";
-
-    // The flag is NOT stored here anymore — it's located in a separate file: flag.html
-
-    document.getElementById("loginBtn").onclick = () => {
-      const u = document.getElementById("user").value;
-      const p = document.getElementById("pass").value;
-      const out = document.getElementById("res");
-
-      if(u === USERNAME && p === PASSWORD){
-        location.href = "flag.html";
-      } else {
-        out.style.color = "#ff6b6b";
-        out.textContent = "Incorrect credentials.";
-      }
-    };
-  </script>
+    <h1>🔒 Mini CTF Challenges</h1>
+    <p>Try these simple challenges to test your skills!</p>
+    
+    <div class="challenge">
+        <h2>🔍 Challenge 1: Source Code Secrets</h2>
+        <p>Find the hidden flag in the page source code.</p>
+        <a href="challenge1.html">Start Challenge 1</a>
+    </div>
+    
+    <div class="challenge">
+        <h2>🔑 Challenge 2: Login Bypass</h2>
+        <p>Can you bypass the login form to get the flag?</p>
+        <a href="challenge2.html">Start Challenge 2</a>
+    </div>
+    
+    <div class="challenge">
+        <h2>🔐 Challenge 3: Crypto Challenge</h2>
+        <p>Decode the secret message to find the flag.</p>
+        <a href="challenge3.html">Start Challenge 3</a>
+    </div>
+    
+    <footer>
+        <p>Created for fun! Flag format: IEEE{example_flag}</p>
+    </footer>
 </body>
 </html>

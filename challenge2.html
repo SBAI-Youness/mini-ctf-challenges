@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Bypass Challenge</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f8ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .login-container {
+            background: white;
+            padding: 30px;
+            border: 2px solid #3498db;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-top: 0;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        button {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background: #388e3c;
+        }
+        .message {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+            text-align: center;
+        }
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            border: 1px solid #ffcdd2;
+        }
+        .success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: white;
+            background: #3498db;
+            padding: 8px 16px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .back:hover {
+            background: #2980b9;
+        }
+        .hint {
+            background: #fff3e0;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>🔑 Admin Login</h1>
+        <p>Enter your credentials to access the flag:</p>
+        
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        
+        <div class="hint">
+            <strong>Hint:</strong> Check the page source or browser developer tools (F12) to see how the login works.
+        </div>
+        
+        <div class="message" id="message"></div>
+        
+        <a href="index.html" class="back">← Back to Challenges</a>
+    </div>
+
+    <script>
+        // Client-side validation (insecure by design)
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const message = document.getElementById('message');
+            
+            // Check credentials (this is intentionally vulnerable)
+            if (username === 'admin' && password === 'letmein123') {
+                try {
+                    // Fetch the flag from flag.txt
+                    const response = await fetch('flag2.txt');
+                    if (!response.ok) throw new Error('Failed to load flag');
+                    const flag = await response.text();
+                    
+                    message.textContent = `✅ Login successful! Here's your flag: ${flag}`;
+                    message.className = 'message success';
+                } catch (error) {
+                    message.textContent = '❌ Error loading flag. Please try again.';
+                    message.className = 'message error';
+                    console.error('Error:', error);
+                }
+                message.style.display = 'block';
+            } else {
+                message.textContent = '❌ Invalid username or password. Try again.';
+                message.className = 'message error';
+                message.style.display = 'block';
+            }
+        });
+        
+        // Easter egg in the source code
+        // The real password is 'letmein123' but don't tell anyone!
+        // Also, here's a fake flag: IEEE{not_the_real_flag}
+    </script>
+</body>
+</html>
