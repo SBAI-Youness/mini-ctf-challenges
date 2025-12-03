@@ -1,281 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Bypass | CTF Challenge</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        :root {
-            --primary: #00ff9d;
-            --primary-dark: #00c47a;
-            --bg: #0a1929;
-            --bg-light: #112240;
-            --bg-lighter: #1a2a3a;
-            --text: #e6f1ff;
-            --text-muted: #8892b0;
-            --border: #1e2a3a;
-            --success: #00ff9d;
-            --error: #ff3860;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Bypass | CTF Challenge</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+    :root {
+        --primary: #00ff9d;
+        --bg: #0a1929;
+        --bg-light: #112240;
+        --bg-lighter: #1a2a3a;
+        --text: #e6f1ff;
+        --text-muted: #8892b0;
+        --border: #1e2a3a;
+        --error: #ff3860;
+        --success: #00ff9d;
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        body {
-            font-family: 'Roboto Mono', monospace;
-            background-color: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-            padding: 2rem 1rem;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    body {
+        font-family: 'Roboto Mono', monospace;
+        background: var(--bg);
+        color: var(--text);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 1rem;
+    }
 
-        .login-container {
-            background: var(--bg-light);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 2.5rem;
-            width: 100%;
-            max-width: 420px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
+    .login-container {
+        width: 100%;
+        max-width: 420px;
+        background: var(--bg-light);
+        padding: 2.5rem;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        position: relative;
+    }
 
-        .login-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), #00a8ff);
-        }
+    .login-container::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--primary), #00a8ff);
+    }
 
-        h1 {
-            color: var(--primary);
-            text-align: center;
-            margin-bottom: 1.8rem;
-            font-size: 1.8rem;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-        }
+    h1 {
+        color: var(--primary);
+        text-align: center;
+        margin-bottom: 1.8rem;
+        font-size: 1.8rem;
+    }
 
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
+    .form-group { margin-bottom: 1.4rem; }
+    label { color: var(--text-muted); margin-bottom: .4rem; display: block; font-size: .9rem; }
 
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            font-weight: 400;
-        }
+    input {
+        width: 100%; padding: .8rem 1rem;
+        background: var(--bg-lighter);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        color: var(--text);
+        font-size: .95rem;
+        transition: .3s;
+    }
 
-        input[type="text"],
-        input[type="password"] {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            background: var(--bg-lighter);
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            color: var(--text);
-            font-family: 'Roboto Mono', monospace;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-        }
+    input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgba(0,255,157,0.2);
+        outline: none;
+    }
 
-        input[type="text"]:focus,
-        input[type="password"]:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 2px rgba(0, 255, 157, 0.2);
-        }
+    button {
+        width: 100%; padding: .9rem;
+        margin-top: .5rem;
+        background: linear-gradient(45deg, var(--primary), #00a8ff);
+        border: none;
+        border-radius: 4px;
+        color: #0a1929;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: .3s;
+    }
 
-        button {
-            background: linear-gradient(45deg, var(--primary), #00a8ff);
-            color: #0a1929;
-            border: none;
-            padding: 0.9rem;
-            border-radius: 4px;
-            font-family: 'Roboto Mono', monospace;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            width: 100%;
-            transition: all 0.3s ease;
-            margin-top: 0.5rem;
-        }
+    button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0,255,157,0.25);
+    }
 
-        button:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 255, 157, 0.2);
-        }
+    .message { display: none; padding: 1rem; border-radius: 4px; margin-top: 1.5rem; font-size: .9rem; }
+    .error { background: rgba(255,56,96,.1); border-left: 3px solid var(--error); color: var(--error); }
+    .success { background: rgba(0,255,157,.1); border-left: 3px solid var(--success); color: var(--success); }
 
-        .message {
-            margin: 1.5rem 0 0;
-            padding: 1rem;
-            border-radius: 4px;
-            display: none;
-            text-align: left;
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
+    .hint {
+        background: rgba(0,168,255,.1);
+        border-left: 3px solid #00a8ff;
+        padding: 1rem;
+        border-radius: 0 4px 4px 0;
+        margin: 1.5rem 0;
+    }
 
-        .error {
-            background: rgba(255, 56, 96, 0.1);
-            color: var(--error);
-            border-left: 3px solid var(--error);
-        }
+    .hint strong { color: #00a8ff; display: block; margin-bottom: .5rem; }
+    .hint p { color: var(--text-muted); font-size: .9rem; }
 
-        .success {
-            background: rgba(0, 255, 157, 0.1);
-            color: var(--success);
-            border-left: 3px solid var(--success);
-        }
-
-        .hint {
-            background: rgba(0, 168, 255, 0.1);
-            border-left: 3px solid #00a8ff;
-            padding: 1rem;
-            margin: 1.5rem 0;
-            border-radius: 0 4px 4px 0;
-        }
-
-        .hint strong {
-            color: #00a8ff;
-            display: block;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .hint p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            line-height: 1.6;
-            margin: 0;
-        }
-
-        .back {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.9rem;
-            margin-top: 1.5rem;
-            transition: color 0.3s ease;
-        }
-
-        .back:hover {
-            color: var(--primary);
-        }
-
-        .back i {
-            font-size: 0.8rem;
-        }
-
-        @media (max-width: 480px) {
-            .login-container {
-                padding: 2rem 1.5rem;
-            }
-            
-            h1 {
-                font-size: 1.5rem;
-            }
-        }
-    </style>
+    .back { margin-top: 1.5rem; display: inline-flex; align-items: center; gap: .5rem; color: var(--text-muted); text-decoration: none; }
+    .back:hover { color: var(--primary); }
+</style>
 </head>
 <body>
-    <div class="login-container">
-        <h1><i class="fas fa-user-lock"></i> Admin Login</h1>
-        <p style="color: var(--text-muted); margin-bottom: 2rem; text-align: center;">Enter your credentials to access the flag</p>
-        
-        <form id="loginForm">
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" placeholder="Enter username" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Enter password" required>
-            </div>
-            <button type="submit"><i class="fas fa-sign-in-alt"></i> Login</button>
-        </form>
-        
-        <div class="hint">
-            <strong>Hint</strong>
-            <p>Check the page source or browser developer tools (F12) to see how the login validation works. Look for client-side validation that might be bypassed.</p>
+<div class="login-container">
+
+    <h1><i class="fas fa-user-lock"></i> Admin Login</h1>
+    <p style="text-align:center; color:var(--text-muted); margin-bottom:2rem;">Enter your credentials to access the flag</p>
+
+    <form id="loginForm">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input id="username" required>
         </div>
-        
-        <div class="message" id="message"></div>
-        
-        <a href="index.html" class="back"><i class="fas fa-arrow-left"></i> Back to Challenges</a>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" required>
+        </div>
+
+        <button type="submit"><i class="fas fa-sign-in-alt"></i> Login</button>
+    </form>
+
+    <div class="hint">
+        <strong>Hint</strong>
+        <p>Check the page source. This login is fully client‑side. Nothing is secure here…</p>
     </div>
 
-    <script>
-        // Client-side validation (insecure by design)
-        document.getElementById('loginForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const message = document.getElementById('message');
-            
-            // Simple client-side validation (easily bypassed)
-            if (username && password) {
-                try {
-                    // Simulate API call with a small delay
-                    await new Promise(resolve => setTimeout(resolve, 800));
-                    
-                    // Check credentials (this is intentionally vulnerable to client-side bypass)
-                    if (username === 'admin' && password === 'letmein123') {
-                        const response = await fetch('flag2.txt');
-                        if (!response.ok) throw new Error('Failed to load flag');
-                        const flag = await response.text();
-                        
-                        message.innerHTML = `
-                            <strong>Access Granted</strong>
-                            <p>Welcome back, administrator. Your flag is: <code>${flag}</code></p>
-                        `;
-                        message.className = 'message success';
-                    } else {
-                        throw new Error('Invalid credentials');
-                    }
-                } catch (error) {
-                    message.innerHTML = `
-                        <strong>Access Denied</strong>
-                        <p>Invalid username or password. Please try again.</p>
-                    `;
-                    message.className = 'message error';
-                    console.error('Login error:', error);
-                }
-                message.style.display = 'block';
-            }
-        });
-        
-        /* 
-         * SECURITY NOTE: This is a training exercise only.
-         * In a real application, always validate credentials server-side.
-         * 
-         * Challenge: Can you find a way to bypass this login form?
-         * Hint: Check how the validation works in the browser's developer tools.
-         * 
-         * Username: admin
-         * Password: letmein123
-         */
-    </script>
+    <div id="message" class="message"></div>
+
+    <a href="index.html" class="back"><i class="fas fa-arrow-left"></i> Back</a>
+</div>
+
+<script>
+// intentionally insecure credentials
+const VALID_USER = "admin";
+const VALID_PASS = "letmein123";
+const FLAG = "IEEE{client_side_is_not_security}";
+
+const form = document.getElementById("loginForm");
+const msg = document.getElementById("message");
+
+form.addEventListener("submit", async e => {
+    e.preventDefault();
+
+    const u = username.value;
+    const p = password.value;
+
+    await new Promise(r => setTimeout(r, 600)); // fake delay
+
+    if (u === VALID_USER && p === VALID_PASS) {
+        msg.className = "message success";
+        msg.innerHTML = `<strong>Access Granted</strong><p>Your flag: <code>${FLAG}</code></p>`;
+    } else {
+        msg.className = "message error";
+        msg.innerHTML = `<strong>Access Denied</strong><p>Wrong username or password.</p>`;
+    }
+
+    msg.style.display = "block";
+});
+</script>
+
 </body>
 </html>

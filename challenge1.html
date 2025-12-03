@@ -122,9 +122,9 @@
             }
         }
     </style>
-    <!-- The flag is: IEEE{view_source_easy} -->
 </head>
 <body>
+    <!-- The flag is: IEEE{view_source_easy} -->
     <div class="container">
         <h1><i class="fas fa-code"></i> Source Code Secrets</h1>
         <p>Your first challenge is to find the hidden flag in this page's source code. This tests your ability to inspect and analyze web page source code, a fundamental skill in web security.</p>
@@ -136,7 +136,56 @@
         
         <p>Look for an HTML comment that contains the flag in the format: <code>IEEE{...}</code></p>
         
-        <a href="index.html" class="btn"><i class="fas fa-arrow-left"></i> Back to Challenges</a>
+        <div class="form-group" style="margin-top: 2rem;">
+            <label for="flag-input" style="display: block; margin-bottom: 0.5rem; color: var(--text-muted);">Enter the flag:</label>
+            <div style="display: flex; gap: 0.5rem;">
+                <input type="text" id="flag-input" style="flex: 1; padding: 0.6rem; background: var(--bg); border: 1px solid var(--border); color: var(--text); border-radius: 4px; font-family: 'Roboto Mono', monospace;" placeholder="IEEE{...}">
+                <button id="submit-flag" class="btn" style="margin: 0;">
+                    <i class="fas fa-paper-plane"></i> Submit
+                </button>
+            </div>
+            <div id="result-message" style="margin-top: 1rem; display: none; padding: 0.75rem; border-radius: 4px;"></div>
+        </div>
+        
+        <a href="index.html" class="btn" style="margin-top: 2rem;"><i class="fas fa-arrow-left"></i> Back to Challenges</a>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const flagInput = document.getElementById('flag-input');
+                const submitBtn = document.getElementById('submit-flag');
+                const resultMessage = document.getElementById('result-message');
+                const correctFlag = 'IEEE{view_source_easy}';
+
+                submitBtn.addEventListener('click', function() {
+                    const userInput = flagInput.value.trim();
+                    
+                    if (!userInput) {
+                        showMessage('Please enter a flag', 'error');
+                        return;
+                    }
+
+                    if (userInput === correctFlag) {
+                        showMessage('🎉 Congratulations! You found the correct flag!', 'success');
+                    } else {
+                        showMessage('❌ Incorrect flag. Keep looking!', 'error');
+                    }
+                });
+
+                flagInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        submitBtn.click();
+                    }
+                });
+
+                function showMessage(message, type) {
+                    resultMessage.textContent = message;
+                    resultMessage.style.display = 'block';
+                    resultMessage.style.background = type === 'success' ? 'rgba(0, 255, 157, 0.1)' : 'rgba(255, 56, 96, 0.1)';
+                    resultMessage.style.borderLeft = type === 'success' ? '3px solid var(--success)' : '3px solid var(--error)';
+                    resultMessage.style.color = type === 'success' ? 'var(--success)' : 'var(--error)';
+                }
+            });
+        </script>
     </div>
 </body>
 </html>
