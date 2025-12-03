@@ -3,189 +3,335 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Challenge 3: ROT13 Cipher</title>
+    <title>ROT13 Cipher | CTF Challenge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        :root {
+            --primary: #00ff9d;
+            --primary-dark: #00c47a;
+            --bg: #0a1929;
+            --bg-light: #112240;
+            --bg-lighter: #1a2a3a;
+            --text: #e6f1ff;
+            --text-muted: #8892b0;
+            --border: #1e2a3a;
+            --success: #00ff9d;
+            --error: #ff3860;
+            --info: #00a8ff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
+            font-family: 'Roboto Mono', monospace;
+            background-color: var(--bg);
+            color: var(--text);
             line-height: 1.6;
-            background-color: #f0f2f5;
-            color: #333;
+            -webkit-font-smoothing: antialiased;
+            padding: 2rem 1rem;
+            max-width: 1000px;
+            margin: 0 auto;
         }
+
         .challenge-container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            color: #2c3e50;
-            text-align: center;
-            margin-top: 0;
-            margin-bottom: 25px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #3498db;
-        }
-        .cipher-container {
-            margin: 25px 0;
-            padding: 20px;
-            background-color: #f8f9fa;
+            background: var(--bg-light);
+            border: 1px solid var(--border);
             border-radius: 8px;
-            border: 1px solid #e0e0e0;
+            padding: 2.5rem;
+            margin: 0 auto;
+            max-width: 800px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         }
+
+        h1 {
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            font-weight: 500;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        p {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .cipher-container {
+            background: var(--bg-lighter);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .cipher-container h3 {
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
         .cipher-text {
-            font-family: 'Courier New', monospace;
-            background-color: #f0f0f0;
-            padding: 15px;
+            font-family: 'Roboto Mono', monospace;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.2rem;
             border-radius: 4px;
             white-space: pre-wrap;
-            line-height: 1.5;
+            line-height: 1.6;
+            color: var(--primary);
+            font-size: 1.1rem;
+            overflow-x: auto;
         }
-        /* Removed tools section as per request */
+
         .hint {
-            background-color: #e3f2fd;
-            border-left: 4px solid #2196f3;
-            padding: 15px;
-            margin: 20px 0;
+            background: rgba(0, 168, 255, 0.1);
+            border-left: 3px solid var(--info);
+            padding: 1.2rem;
+            margin: 2rem 0;
             border-radius: 0 4px 4px 0;
         }
+
         .hint h3 {
-            margin-top: 0;
-            color: #0d47a1;
+            color: var(--info);
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
         }
+
+        .hint h3 i {
+            transition: transform 0.3s ease;
+        }
+
         .hint-content {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-top: 1rem;
             display: none;
-            margin-top: 10px;
         }
-        .hint-toggle {
-            background: none;
-            border: none;
-            color: #1565c0;
-            cursor: pointer;
-            padding: 0;
-            font-size: 14px;
-            text-decoration: underline;
+
+        .hint-content.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
         }
-        .hint-toggle:focus {
-            outline: none;
+
+        .hint-content p {
+            margin-bottom: 1rem;
         }
-        .back-link {
-            display: inline-block;
-            margin-top: 20px;
-            color: #3498db;
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.2s;
+
+        .hint-content code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.9em;
+            color: var(--primary);
         }
-        .back-link:hover {
-            color: #2980b9;
-            text-decoration: underline;
-        }
+
         .flag-input {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #f8f9fa;
-            border-radius: 4px;
-            border: 1px solid #ddd;
+            background: var(--bg-lighter);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1.5rem;
+            margin: 2rem 0;
         }
+
         .flag-input p {
-            margin-top: 0;
-            font-weight: bold;
+            color: var(--text);
+            font-weight: 500;
+            margin-bottom: 1rem;
         }
+
+        .form-group {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
         input[type="text"] {
-            padding: 8px 12px;
-            width: 300px;
-            max-width: 100%;
-            border: 1px solid #ddd;
+            flex: 1;
+            min-width: 200px;
+            padding: 0.8rem 1rem;
+            background: var(--bg);
+            border: 1px solid var(--border);
             border-radius: 4px;
-            font-size: 14px;
+            color: var(--text);
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
         }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(0, 255, 157, 0.2);
+        }
+
         button[type="submit"] {
-            background-color: #4caf50;
-            color: white;
+            background: linear-gradient(45deg, var(--primary), #00a8ff);
+            color: #0a1929;
             border: none;
-            padding: 8px 16px;
+            padding: 0 1.5rem;
             border-radius: 4px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.95rem;
+            font-weight: 500;
             cursor: pointer;
-            font-size: 14px;
-            margin-left: 10px;
-            transition: background-color 0.2s;
+            transition: all 0.3s ease;
+            white-space: nowrap;
         }
+
         button[type="submit"]:hover {
-            background-color: #388e3c;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 255, 157, 0.2);
         }
+
         #result {
-            margin-top: 10px;
-            padding: 10px;
+            margin-top: 1rem;
+            padding: 1rem;
             border-radius: 4px;
             display: none;
+            font-size: 0.95rem;
+            line-height: 1.6;
         }
+
+        #result strong {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
         .success {
-            background-color: #e8f5e9;
-            color: #2e7d32;
-            border: 1px solid #c8e6c9;
+            background: rgba(0, 255, 157, 0.1);
+            color: var(--success);
+            border-left: 3px solid var(--success);
         }
+
         .error {
-            background-color: #ffebee;
-            color: #c62828;
-            border: 1px solid #ffcdd2;
+            background: rgba(255, 56, 96, 0.1);
+            color: var(--error);
+            border-left: 3px solid var(--error);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            margin-top: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--primary);
+        }
+
+        .back-link i {
+            font-size: 0.8rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .challenge-container {
+                padding: 1.5rem;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            .form-group {
+                flex-direction: column;
+            }
+            
+            button[type="submit"] {
+                width: 100%;
+                padding: 0.8rem;
+            }
         }
     </style>
 </head>
 <body>
     <div class="challenge-container">
-        <h1>� Challenge 3: ROT13 Cipher</h1>
+        <h1><i class="fas fa-lock"></i> ROT13 Cipher Challenge</h1>
         
-        <p>Welcome to the cryptography challenge! Your task is to decode a message that has been encrypted using the ROT13 cipher.</p>
+        <p>Welcome to the cryptography challenge! Your task is to decode a message that has been encrypted using the ROT13 cipher, a simple letter substitution cipher that replaces each letter with the 13th letter after it in the alphabet.</p>
         
         <div class="cipher-container">
-            <h3>Encrypted Message:</h3>
+            <h3><i class="fas fa-envelope"></i> Encrypted Message</h3>
             <div class="cipher-text">
                 Gur synt vf: VRRR{ebg13_znfgeryl_haybpxrq}
             </div>
         </div>
         
         <div class="hint">
-            <h3>Need a hint? <button class="hint-toggle" onclick="toggleHint()">Show Hint</button></h3>
+            <h3 id="hintToggle">
+                <span><i class="fas fa-lightbulb"></i> Need a hint?</span>
+                <i class="fas fa-chevron-down"></i>
+            </h3>
             <div class="hint-content" id="hintContent">
-                <p>ROT13 is a simple letter substitution cipher that replaces a letter with the 13th letter after it in the alphabet.</p>
-                <p>For example: A → N, B → O, C → P, ..., M → Z, N → A, O → B, ..., Z → M</p>
-                <p>You can use <a href="https://gchq.github.io/CyberChef/" target="_blank">CyberChef with ROT13</a> to decode the message.</p>
-                <p>Or in Python: <code>import codecs; codecs.encode('your_text', 'rot13')</code></p>
+                <p>ROT13 is a special case of the Caesar cipher. Each letter is replaced by the letter 13 positions after it in the alphabet. For example:</p>
+                <ul style="margin-left: 1.5rem; margin-bottom: 1rem; color: var(--text-muted);">
+                    <li>A → N</li>
+                    <li>B → O</li>
+                    <li>M → Z</li>
+                    <li>N → A</li>
+                    <li>Z → M</li>
+                </ul>
+                <p>You can use online tools like <a href="https://gchq.github.io/CyberChef/" target="_blank" style="color: var(--info); text-decoration: none; border-bottom: 1px dashed var(--info);">CyberChef</a> with the ROT13 function to decode the message.</p>
+                <p>Or use this Python one-liner: <code>import codecs; print(codecs.encode('your_text', 'rot13'))</code></p>
             </div>
         </div>
         
-        <!-- Removed decode tool as per request -->
         <div class="flag-input">
             <p>Decoded the message? Enter the flag below:</p>
             <form id="flagForm">
-                <input type="text" id="flagInput" placeholder="Enter the flag (format: IEEE{...})" required>
-                <button type="submit">Submit</button>
+                <div class="form-group">
+                    <input type="text" id="flagInput" placeholder="Enter the flag (format: IEEE{...})" required>
+                    <button type="submit"><i class="fas fa-check"></i> Verify Flag</button>
+                </div>
             </form>
             <div id="result"></div>
         </div>
         
-        <a href="index.html" class="back-link">← Back to Challenges</a>
+        <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Challenges</a>
     </div>
 
     <script>
         // Toggle hint visibility
-        function toggleHint() {
+        document.getElementById('hintToggle').addEventListener('click', function() {
             const hintContent = document.getElementById('hintContent');
-            const hintButton = document.querySelector('.hint-toggle');
+            const icon = this.querySelector('i');
             
-            if (hintContent.style.display === 'block') {
-                hintContent.style.display = 'none';
-                hintButton.textContent = 'Show Hint';
+            hintContent.classList.toggle('show');
+            
+            if (hintContent.classList.contains('show')) {
+                icon.className = 'fas fa-chevron-up';
             } else {
-                hintContent.style.display = 'block';
-                hintButton.textContent = 'Hide Hint';
+                icon.className = 'fas fa-chevron-down';
             }
-        }
-        
-        // Removed ROT13 decoder functions as per request
+        });
+
         // Flag validation
         document.getElementById('flagForm').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -197,31 +343,46 @@
                 // Using hardcoded flag to avoid CORS issues
                 const correctFlag = 'IEEE{rot13_masterly_unlocked}';
                 
-                // Debug logging
-                console.log('User input:', JSON.stringify(userInput));
-                console.log('Correct flag:', JSON.stringify(correctFlag));
-                console.log('Input length:', userInput.length);
-                console.log('Flag length:', correctFlag.length);
+                // Add a small delay for better UX
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                // Add a small delay for better UX
+                await new Promise(resolve => setTimeout(resolve, 500));
                 
                 // Case-insensitive comparison to be more forgiving
                 if (userInput.toLowerCase() === correctFlag.toLowerCase()) {
-                    resultDiv.textContent = '✅ Correct! Well done on solving the ROT13 challenge!';
+                    resultDiv.innerHTML = `
+                        <strong><i class="fas fa-check-circle"></i> Correct!</strong>
+                        <p>You've successfully decoded the ROT13 cipher! The flag is: <code>${correctFlag}</code></p>
+                    `;
                     resultDiv.className = 'success';
                 } else {
-                    resultDiv.textContent = '❌ Incorrect flag. Try decoding the message again!';
+                    resultDiv.innerHTML = `
+                        <strong><i class="fas fa-times-circle"></i> Incorrect Flag</strong>
+                        <p>The flag you entered doesn't match. Keep trying!</p>
+                    `;
                     resultDiv.className = 'error';
                 }
+                resultDiv.style.display = 'block';
+                
+                // Scroll to result
+                resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                
             } catch (error) {
-                resultDiv.textContent = '❌ Error verifying flag. Please try again.';
-                resultDiv.className = 'error';
                 console.error('Error:', error);
+                resultDiv.innerHTML = `
+                    <strong><i class="fas fa-exclamation-triangle"></i> Error</strong>
+                    <p>An error occurred while verifying your flag. Please try again.</p>
+                `;
+                resultDiv.className = 'error';
+                resultDiv.style.display = 'block';
             }
-            
-            resultDiv.style.display = 'block';
         });
         
-        // Easter egg in the source code
-        // Here's a fake flag to throw people off: IEEE{not_the_real_flag}
+        // Auto-focus the input field on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('flagInput').focus();
+        });    
     </script>
 </body>
 </html>

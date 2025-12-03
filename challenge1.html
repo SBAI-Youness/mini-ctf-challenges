@@ -3,62 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Source Code Secrets</title>
+    <title>Source Code Secrets | CTF Challenge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        :root {
+            --primary: #00ff9d;
+            --primary-dark: #00c47a;
+            --bg: #0a1929;
+            --bg-light: #112240;
+            --text: #e6f1ff;
+            --text-muted: #8892b0;
+            --border: #1e2a3a;
+            --success: #00ff9d;
+            --error: #ff3860;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto Mono', monospace;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            padding: 2rem 1rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 20px;
-            background-color: #f0f8ff;
+            padding: 2rem;
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        .container {
-            background: white;
-            padding: 20px;
-            border: 2px solid #3498db;
-            border-radius: 10px;
-        }
+
         h1 {
-            color: #2c3e50;
+            color: var(--primary);
             text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            font-weight: 500;
         }
+
+        p {
+            margin-bottom: 1.5rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
         .hint {
-            background: #e3f2fd;
-            padding: 10px;
-            border-radius: 5px;
-            margin: 15px 0;
+            background: rgba(0, 255, 157, 0.1);
+            border-left: 3px solid var(--primary);
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
         }
-        a {
-            color: #2980b9;
+
+        .hint strong {
+            color: var(--primary);
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
             text-decoration: none;
+            margin-top: 1rem;
         }
-        a:hover {
-            text-decoration: underline;
+
+        .btn:hover {
+            background: rgba(0, 255, 157, 0.1);
+            transform: translateY(-1px);
         }
-        .back {
-            display: inline-block;
-            margin-top: 20px;
-            color: white;
-            background: #3498db;
-            padding: 8px 16px;
-            border-radius: 5px;
-            text-decoration: none;
+
+        .btn i {
+            font-size: 0.8rem;
+        }
+
+        code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.9em;
+            color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
         }
     </style>
     <!-- The flag is: IEEE{view_source_easy} -->
 </head>
 <body>
     <div class="container">
-        <h1>🔍 Source Code Secrets</h1>
-        <p>Can you find the hidden flag in this page's source code?</p>
+        <h1><i class="fas fa-code"></i> Source Code Secrets</h1>
+        <p>Your first challenge is to find the hidden flag in this page's source code. This tests your ability to inspect and analyze web page source code, a fundamental skill in web security.</p>
         
         <div class="hint">
-            <strong>Hint:</strong> Right-click and select "View Page Source" or press Ctrl+U
+            <strong>Hint</strong>
+            <p>Right-click and select "View Page Source" or press <code>Ctrl+U</code> (Windows/Linux) or <code>Cmd+Option+U</code> (Mac) to view the page source.</p>
         </div>
         
-        <p>Look for a comment that starts with "The flag is:"</p>
+        <p>Look for an HTML comment that contains the flag in the format: <code>IEEE{...}</code></p>
         
-        <a href="index.html" class="back">← Back to Challenges</a>
+        <a href="index.html" class="btn"><i class="fas fa-arrow-left"></i> Back to Challenges</a>
     </div>
 </body>
 </html>

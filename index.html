@@ -3,74 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mini CTF Challenges</title>
+    <title>CTF Challenges</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        :root {
+            --primary: #00ff9d;
+            --primary-dark: #00c47a;
+            --bg: #0a1929;
+            --bg-light: #112240;
+            --text: #e6f1ff;
+            --text-muted: #8892b0;
+            --border: #1e2a3a;
+            --success: #00ff9d;
+            --error: #ff3860;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto Mono', monospace;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            padding: 2rem 1rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 20px;
-            line-height: 1.6;
-            background-color: #f0f8ff;
+            padding: 0 1rem;
         }
-        .challenge {
-            border: 2px solid #3498db;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 10px;
-            background-color: white;
-        }
-        h1 {
-            color: #2c3e50;
+
+        header {
             text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeIn 0.8s ease-out;
         }
-        h2 {
-            color: #2980b9;
-            margin-top: 0;
+
+        h1 {
+            color: var(--primary);
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            letter-spacing: 1px;
         }
-        a {
-            display: inline-block;
-            background-color: #3498db;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 5px;
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .challenge {
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .challenge:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 255, 157, 0.1);
+        }
+
+        .challenge h2 {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .challenge p {
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
             text-decoration: none;
-            margin-top: 10px;
         }
-        a:hover {
-            background-color: #2980b9;
+
+        .btn:hover {
+            background: rgba(0, 255, 157, 0.1);
+            transform: translateY(-1px);
         }
+
+        .btn i {
+            font-size: 0.8rem;
+        }
+
         footer {
             text-align: center;
-            margin-top: 40px;
-            color: #7f8c8d;
+            margin-top: 4rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            padding: 1rem 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .status {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: var(--success);
+            border-radius: 50%;
+            margin-right: 6px;
+            animation: pulse 2s infinite;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem 0.5rem;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .challenge {
+                padding: 1.2rem;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>🔒 Mini CTF Challenges</h1>
-    <p>Try these simple challenges to test your skills!</p>
+    <div class="container">
+        <header>
+            <h1>CTF Challenges</h1>
+            <p class="subtitle">Test your cybersecurity skills with these challenges</p>
+        </header>
     
-    <div class="challenge">
-        <h2>🔍 Challenge 1: Source Code Secrets</h2>
-        <p>Find the hidden flag in the page source code.</p>
-        <a href="challenge1.html">Start Challenge 1</a>
+        <div class="challenge">
+            <h2><i class="fas fa-code"></i> Source Code Secrets</h2>
+            <p>Find the hidden flag in the page source code. This challenge tests your ability to inspect and analyze web page source code.</p>
+            <a href="challenge1.html" class="btn">Start Challenge <i class="fas fa-arrow-right"></i></a>
+        </div>
+        
+        <div class="challenge">
+            <h2><i class="fas fa-user-lock"></i> Login Bypass</h2>
+            <p>Can you bypass the login form to access the protected flag? Test your web security knowledge.</p>
+            <a href="challenge2.html" class="btn">Start Challenge <i class="fas fa-arrow-right"></i></a>
+        </div>
+        
+        <div class="challenge">
+            <h2><i class="fas fa-lock"></i> Crypto Challenge</h2>
+            <p>Decrypt the encoded message to reveal the hidden flag. A test of your cryptography skills.</p>
+            <a href="challenge3.html" class="btn">Start Challenge <i class="fas fa-arrow-right"></i></a>
+        </div>
+    
+        <footer>
+            <p><span class="status"></span> System Operational | Flag format: IEEE{example_flag}</p>
+        </footer>
     </div>
-    
-    <div class="challenge">
-        <h2>🔑 Challenge 2: Login Bypass</h2>
-        <p>Can you bypass the login form to get the flag?</p>
-        <a href="challenge2.html">Start Challenge 2</a>
-    </div>
-    
-    <div class="challenge">
-        <h2>🔐 Challenge 3: Crypto Challenge</h2>
-        <p>Decode the secret message to find the flag.</p>
-        <a href="challenge3.html">Start Challenge 3</a>
-    </div>
-    
-    <footer>
-        <p>Created for fun! Flag format: IEEE{example_flag}</p>
-    </footer>
 </body>
 </html>
